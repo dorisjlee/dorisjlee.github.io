@@ -1,0 +1,101 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../utils/url';
+
+interface Props {
+  experiment: CollectionEntry<'experiments'>;
+}
+
+const { experiment } = Astro.props;
+const { data, id } = experiment;
+const slug = id.replace(/\.mdx?$/, '');
+const formattedDate = data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="post-card">
+  <a href={withBase(`/diary/${slug}`)} class="card-link">
+    <time class="card-date" datetime={data.date.toISOString()}>{formattedDate}</time>
+    <h3 class="card-title">{data.title}</h3>
+    <p class="card-description">{data.description}</p>
+    {
+      data.tags.length > 0 && (
+        <ul class="tag-list" aria-label="Tags">
+          {data.tags.slice(0, 4).map((tag) => (
+            <li class="tag">{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </a>
+</article>
+
+<style>
+  .post-card {
+    background: var(--color-paper);
+    border: 1px solid var(--color-paper-dark);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .post-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .card-link {
+    display: block;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .card-link:hover {
+    color: inherit;
+  }
+
+  .card-date {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-ink-faint);
+  }
+
+  .card-title {
+    font-size: 1.125rem;
+    margin: 0.5rem 0 0.5rem;
+    color: var(--color-ink);
+  }
+
+  .card-description {
+    font-size: 0.9375rem;
+    color: var(--color-ink-muted);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    background: var(--color-paper-warm);
+    border: 1px solid var(--color-paper-dark);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius);
+    color: var(--color-ink-muted);
+  }
+</style>

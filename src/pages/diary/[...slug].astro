@@ -1,0 +1,22 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import ExperimentTemplate from '../../components/ExperimentTemplate.astro';
+
+export async function getStaticPaths() {
+  const experiments = await getCollection('experiments');
+  return experiments.map((experiment) => ({
+    params: { slug: experiment.id.replace(/\.mdx?$/, '') },
+    props: { experiment },
+  }));
+}
+
+const { experiment } = Astro.props;
+const { Content } = await render(experiment);
+---
+
+<PageLayout title={experiment.data.title} description={experiment.data.description}>
+  <ExperimentTemplate experiment={experiment}>
+    <Content />
+  </ExperimentTemplate>
+</PageLayout>

@@ -1,0 +1,122 @@
+---
+import { withBase } from '../utils/url';
+
+const navItems = [{ href: withBase('/diary'), label: 'Robododo Diary' }];
+
+const currentPath = Astro.url.pathname;
+const homeHref = withBase('/');
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href={homeHref} class="logo" aria-label="Doris Lee — Home">
+      <span class="logo-name">Doris Lee</span>
+      <span class="logo-project">Robododo Diary 🤖</span>
+    </a>
+
+    <nav class="nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        {
+          navItems.map(({ href, label }) => {
+            const isActive =
+              currentPath === href ||
+              (href !== '/' && currentPath.startsWith(href));
+            return (
+              <li>
+                <a href={href} class:list={['nav-link', { active: isActive }]}>
+                  {label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--header-height);
+    background: rgba(246, 243, 236, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-paper-dark);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    gap: 1.5rem;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    line-height: 1.2;
+  }
+
+  .logo-name {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--color-ink);
+  }
+
+  .logo-project {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-ink-faint);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-ink-muted);
+    text-decoration: none;
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--color-ink);
+    border-bottom-color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    .header-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      height: auto;
+      padding: 0.75rem 0;
+    }
+
+    .site-header {
+      height: auto;
+    }
+
+    .nav-list {
+      gap: 0.5rem 1rem;
+    }
+  }
+</style>

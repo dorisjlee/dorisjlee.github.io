@@ -1,0 +1,62 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import ExperimentCard from '../../components/ExperimentCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('experiments')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<PageLayout
+  title="Robododo Diary"
+  description="A robotics learning diary documenting lessons from building real robot systems as a beginner."
+  wide={true}
+>
+  <header class="diary-header">
+    <p class="diary-eyebrow">🤖 Robododo Diary</p>
+    <h1>Field notes from learning robotics</h1>
+    <p class="diary-intro">
+      Not a blog optimized for anything. Just honest notes from teaching myself Physical AI —
+      the setup pain, the wrong turns, and what I actually learned along the way.
+    </p>
+  </header>
+
+  <section class="post-list" aria-labelledby="posts-heading">
+    <div class="post-grid">
+      {posts.map((post) => <ExperimentCard experiment={post} />)}
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .diary-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--color-ink);
+  }
+
+  .diary-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    margin: 0 0 0.75rem;
+  }
+
+  .diary-header h1 {
+    margin: 0 0 1rem;
+  }
+
+  .diary-intro {
+    font-size: 1.125rem;
+    color: var(--color-ink-muted);
+    max-width: 40rem;
+    margin: 0;
+  }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+</style>

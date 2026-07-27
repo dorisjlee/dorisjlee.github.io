@@ -1,0 +1,64 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout title="About">
+  <header class="page-header">
+    <h1>About</h1>
+  </header>
+
+  <div class="prose">
+    <p>
+      I'm <strong>Doris Lee</strong> — an engineer with a background in AI infrastructure,
+      machine learning, open source, and software engineering. I previously founded
+      <a href="https://ponder.io" target="_blank" rel="noopener noreferrer">Ponder</a>
+      (acquired by Snowflake), built open source projects, and currently work on AI and data products.
+    </p>
+
+    <p>
+      Lately I've been going deep on <strong>Physical AI and robotics</strong> — not from the
+      sidelines, but by building real systems: teleoperating arms, collecting demonstration data,
+      training imitation learning policies, and debugging the messy gap between simulation and reality.
+    </p>
+
+    <h2>Why Robododo Diary?</h2>
+    <p>
+      Most robotics content online is either academic papers or polished demo videos.
+      Neither captures what learning robotics actually feels like — the CUDA errors, the jittery
+      rollouts, the moment you realize your dataset has inconsistent end states.
+    </p>
+    <p>
+      <strong>Robododo Diary</strong> 🤖 is my attempt to document that journey honestly.
+      It's playful, curious, and experimental — a field notebook, not a company.
+    </p>
+
+    <h2>Background</h2>
+    <ul>
+      <li>AI infrastructure &amp; ML systems engineering</li>
+      <li>Open source contributor and project maintainer</li>
+      <li>Founder — Ponder (acquired by Snowflake)</li>
+      <li>Currently exploring robotics, simulation, and imitation learning</li>
+    </ul>
+
+    <h2>What I'm learning now</h2>
+    <ul>
+      <li>LeRobot and SO-ARM101 teleoperation pipelines</li>
+      <li>ACT (Action Chunking with Transformers) policies</li>
+      <li>Real-world manipulation: sorting, picking, placing</li>
+      <li>Simulation with Isaac Lab and MuJoCo</li>
+      <li>Vision-language-action models and sim-to-real transfer</li>
+    </ul>
+  </div>
+</PageLayout>
+
+<style>
+  .page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-paper-dark);
+  }
+
+  .page-header h1 {
+    margin: 0;
+  }
+</style>

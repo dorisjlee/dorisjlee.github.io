@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" fill="#efe9dc"/>
+  <rect x="80" y="200" width="120" height="80" rx="4" fill="#2a7a6f" opacity="0.3" stroke="#2a7a6f"/>
+  <text x="140" y="250" text-anchor="middle" font-family="monospace" font-size="12" fill="#2a7a6f">GREEN</text>
+  <rect x="440" y="200" width="120" height="80" rx="4" fill="#c9920a" opacity="0.3" stroke="#c9920a"/>
+  <text x="500" y="250" text-anchor="middle" font-family="monospace" font-size="12" fill="#c9920a">YELLOW</text>
+  <rect x="280" y="280" width="80" height="40" rx="4" fill="#1c1b19" opacity="0.15"/>
+  <text x="320" y="305" text-anchor="middle" font-family="monospace" font-size="11" fill="#5c5850">start</text>
+  <text x="320" y="340" text-anchor="middle" font-family="monospace" font-size="14" fill="#8a857c">Color sorting setup</text>
+</svg>

@@ -1,0 +1,95 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../utils/url';
+
+interface Props {
+  experiment: CollectionEntry<'experiments'>;
+}
+
+const { experiment } = Astro.props;
+const { data } = experiment;
+
+const formattedDate = data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="post">
+  <header class="post-header">
+    <time class="post-date" datetime={data.date.toISOString()}>{formattedDate}</time>
+    <h1 class="post-title">{data.title}</h1>
+
+    {
+      data.tags.length > 0 && (
+        <ul class="tag-list">
+          {data.tags.map((tag) => (
+            <li class="tag">{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </header>
+
+  <div class="prose post-body">
+    <slot />
+  </div>
+
+  <nav class="post-footer-nav">
+    <a href={withBase('/diary')}>← Back to Robododo Diary</a>
+  </nav>
+</article>
+
+<style>
+  .post {
+    padding-top: 2rem;
+  }
+
+  .post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--color-ink);
+  }
+
+  .post-date {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-ink-faint);
+  }
+
+  .post-title {
+    margin: 0.5rem 0 0.75rem;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    background: var(--color-paper-warm);
+    border: 1px solid var(--color-paper-dark);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius);
+    color: var(--color-ink-muted);
+  }
+
+  .post-footer-nav {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-paper-dark);
+  }
+
+  .post-footer-nav a {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.9375rem;
+  }
+</style>

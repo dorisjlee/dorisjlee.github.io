@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  wide?: boolean;
+}
+
+const { title, description, wide = false } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <Header slot="header" />
+  <div class:list={['page', { 'page--wide': wide }]}>
+    <slot />
+  </div>
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .page {
+    width: min(var(--content-width), 100% - 2rem);
+    margin-inline: auto;
+    padding-top: 2.5rem;
+  }
+
+  .page--wide {
+    width: min(var(--max-width), 100% - 2rem);
+  }
+</style>

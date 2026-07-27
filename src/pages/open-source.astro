@@ -1,0 +1,106 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+
+const contributions = [
+  {
+    name: 'LeRobot',
+    role: 'User & contributor',
+    description:
+      'Using Hugging Face\'s LeRobot framework for teleoperation, dataset management, and ACT policy training on SO-ARM101.',
+    url: 'https://github.com/huggingface/lerobot',
+  },
+  {
+    name: 'Ponder',
+    role: 'Founder (acquired by Snowflake)',
+    description:
+      'Built an AI-powered analytics platform. Open source roots, developer-first tooling, acquired by Snowflake.',
+    url: 'https://github.com/snowflakedb',
+  },
+];
+---
+
+<PageLayout title="Open Source">
+  <header class="page-header">
+    <h1>Open Source</h1>
+    <p class="page-intro">
+      Building in public — tools, experiments, and code from the robotics journey.
+    </p>
+  </header>
+
+  <div class="prose">
+    <p>
+      Open source has shaped how I work. From founding Ponder to contributing to ML infrastructure
+      projects, I believe the best way to learn is to build things others can use and improve.
+    </p>
+  </div>
+
+  <section class="oss-list" aria-labelledby="oss-heading">
+    <h2 id="oss-heading">Projects &amp; contributions</h2>
+    {
+      contributions.map((item) => (
+        <article class="oss-card">
+          <h3>
+            <a href={item.url} target="_blank" rel="noopener noreferrer">
+              {item.name} →
+            </a>
+          </h3>
+          <p class="oss-role">{item.role}</p>
+          <p class="oss-desc">{item.description}</p>
+        </article>
+      ))
+    }
+  </section>
+
+  <p class="github-cta">
+    More on <a href="https://github.com/dorislee" target="_blank" rel="noopener noreferrer">GitHub</a>.
+  </p>
+</PageLayout>
+
+<style>
+  .page-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.5rem;
+  }
+
+  .page-intro {
+    color: var(--color-ink-muted);
+    margin: 0;
+  }
+
+  .oss-list h2 {
+    font-size: 1.125rem;
+    margin: 2rem 0 1.25rem;
+  }
+
+  .oss-card {
+    padding: 1.25rem 0;
+    border-bottom: 1px dashed var(--color-paper-dark);
+  }
+
+  .oss-card h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.0625rem;
+  }
+
+  .oss-role {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    margin: 0 0 0.5rem;
+  }
+
+  .oss-desc {
+    font-size: 0.9375rem;
+    color: var(--color-ink-muted);
+    margin: 0;
+  }
+
+  .github-cta {
+    margin-top: 2rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+  }
+</style>

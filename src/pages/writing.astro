@@ -1,0 +1,106 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { withBase } from '../utils/url';
+
+const notes = [
+  {
+    title: 'Robododo Diary',
+    type: 'Experiment log',
+    description: 'The main feature — structured experiment entries from the robotics lab.',
+    link: withBase('/diary'),
+  },
+  {
+    title: 'Why dataset quality matters more than model architecture',
+    type: 'Lesson learned',
+    description: 'Notes from ACT training — consistency beats cleverness.',
+    link: withBase('/diary/002-act-policy'),
+  },
+  {
+    title: 'Debugging robot jitter during rollout',
+    type: 'Debug log',
+    description: 'When your policy works in training but shakes during inference.',
+    link: withBase('/diary/003-second-object'),
+  },
+];
+---
+
+<PageLayout title="Writing">
+  <header class="page-header">
+    <h1>Writing / Notes</h1>
+    <p class="page-intro">
+      Technical notes, lessons learned, and experiment write-ups — not optimized for SEO,
+      optimized for future-me (and anyone else learning robotics the hard way).
+    </p>
+  </header>
+
+  <ul class="notes-list">
+    {
+      notes.map((note) => (
+        <li>
+          <article class="note-card">
+            <span class="note-type">{note.type}</span>
+            <h2>
+              <a href={note.link}>{note.title}</a>
+            </h2>
+            <p>{note.description}</p>
+          </article>
+        </li>
+      ))
+    }
+  </ul>
+</PageLayout>
+
+<style>
+  .page-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.5rem;
+  }
+
+  .page-intro {
+    color: var(--color-ink-muted);
+    margin: 0;
+    max-width: 36rem;
+  }
+
+  .notes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .note-card {
+    padding: 1.25rem 0;
+    border-bottom: 1px dashed var(--color-paper-dark);
+  }
+
+  .note-type {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-ink-faint);
+  }
+
+  .note-card h2 {
+    font-size: 1.125rem;
+    margin: 0.35rem 0 0.5rem;
+  }
+
+  .note-card h2 a {
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .note-card h2 a:hover {
+    color: var(--color-accent);
+  }
+
+  .note-card p {
+    font-size: 0.9375rem;
+    color: var(--color-ink-muted);
+    margin: 0;
+  }
+</style>

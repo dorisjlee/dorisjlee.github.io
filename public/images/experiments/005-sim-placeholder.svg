@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" fill="#efe9dc"/>
+  <rect x="40" y="40" width="560" height="280" rx="8" fill="#1c1b19" opacity="0.05" stroke="#5c5850" stroke-dasharray="8"/>
+  <text x="320" y="100" text-anchor="middle" font-family="monospace" font-size="16" fill="#5c5850">Isaac Lab</text>
+  <text x="320" y="130" text-anchor="middle" font-family="monospace" font-size="12" fill="#8a857c">Simulation Environment</text>
+  <rect x="200" y="160" width="80" height="80" rx="4" fill="#2a7a6f" opacity="0.2"/>
+  <rect x="360" y="160" width="80" height="80" rx="4" fill="#c9920a" opacity="0.2"/>
+  <text x="320" y="340" text-anchor="middle" font-family="monospace" font-size="14" fill="#8a857c">Planned  sim-to-real exploration</text>
+</svg>

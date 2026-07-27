@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" fill="#efe9dc"/>
+  <rect x="40" y="280" width="560" height="4" fill="#e5dfd2"/>
+  <rect x="120" y="120" width="8" height="160" fill="#5c5850"/>
+  <rect x="200" y="80" width="8" height="200" fill="#5c5850"/>
+  <rect x="280" y="100" width="8" height="180" fill="#5c5850"/>
+  <circle cx="288" cy="90" r="12" fill="#d45d3a"/>
+  <rect x="80" y="240" width="60" height="40" rx="4" fill="#2a7a6f" opacity="0.3"/>
+  <rect x="480" y="240" width="80" height="30" rx="2" fill="#1c1b19" opacity="0.1"/>
+  <text x="320" y="340" text-anchor="middle" font-family="monospace" font-size="14" fill="#8a857c">SO-ARM101 desk setup (placeholder)</text>
+</svg>

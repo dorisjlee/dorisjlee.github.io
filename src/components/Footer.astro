@@ -1,0 +1,61 @@
+---
+import { withBase } from '../utils/url';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-links">
+      <a href="https://github.com/dorisjlee" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://linkedin.com/in/dorisjlee" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://x.com/dorisjlee" target="_blank" rel="noopener noreferrer">X</a>
+    </div>
+    <p class="footer-copy">© {year} Doris Lee · Field notes from my homegrown robotics lab</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 4rem;
+    padding: 2.5rem 0;
+    border-top: 1px dashed var(--color-paper-dark);
+    background: var(--color-paper-warm);
+  }
+
+  .footer-inner {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .footer-name {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .footer-tagline {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-ink-faint);
+    margin: 0.25rem 0 0;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .footer-copy {
+    font-size: 0.8125rem;
+    color: var(--color-ink-faint);
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,164 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { withBase } from '../utils/url';
+
+const projects = [
+  {
+    title: 'SO-ARM101 + LeRobot Pipeline',
+    status: 'Active',
+    description:
+      'Built a real robot learning pipeline from scratch. Teleoperation data collection, Hugging Face dataset upload, ACT policy training — with plenty of debugging along the way (cameras, CUDA, WSL).',
+    tags: ['LeRobot', 'SO-ARM101', 'teleoperation', 'ACT'],
+    link: withBase('/diary/001-lerobot-so-arm101'),
+  },
+  {
+    title: 'ACT Imitation Learning Experiments',
+    status: 'Active',
+    description:
+      'Collected demonstrations and trained ACT policies. Learned hard lessons about dataset quality, rollout jitter, inconsistent end states, and policies that don\'t know when tasks are complete.',
+    tags: ['ACT', 'imitation learning', 'PyTorch'],
+    link: withBase('/diary/002-act-policy'),
+  },
+  {
+    title: 'Color Sorting Robot',
+    status: 'Completed',
+    description:
+      'Trained an ACT policy with ~80 demonstrations to sort colored blocks into green and yellow bins. Successfully learned sorting behavior, with remaining challenges in motion smoothness and reset behavior.',
+    tags: ['manipulation', 'ACT', 'SO-ARM101'],
+    link: withBase('/diary/004-color-sorting'),
+  },
+  {
+    title: 'Simulation Exploration',
+    status: 'Planned',
+    description:
+      'Future work exploring Isaac Lab, MuJoCo, reinforcement learning, vision-language-action models, and sim-to-real transfer.',
+    tags: ['Isaac Lab', 'MuJoCo', 'RL', 'VLA'],
+    link: withBase('/diary/005-isaac-lab'),
+  },
+];
+---
+
+<PageLayout title="Projects" wide={true}>
+  <header class="page-header">
+    <h1>Projects</h1>
+    <p class="page-intro">
+      Hands-on robotics work — real hardware, real failures, real progress.
+    </p>
+  </header>
+
+  <div class="project-grid">
+    {
+      projects.map((project) => (
+        <article class="project-card">
+          <header class="project-header">
+            <span class={`project-status status--${project.status.toLowerCase()}`}>
+              {project.status}
+            </span>
+          </header>
+          <h2 class="project-title">
+            <a href={project.link}>{project.title}</a>
+          </h2>
+          <p class="project-desc">{project.description}</p>
+          <ul class="tag-list">
+            {project.tags.map((tag) => (
+              <li class="tag">{tag}</li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</PageLayout>
+
+<style>
+  .page-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.5rem;
+  }
+
+  .page-intro {
+    color: var(--color-ink-muted);
+    margin: 0;
+    font-size: 1.0625rem;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    padding: 1.5rem;
+    background: var(--color-paper);
+    border: 1px solid var(--color-paper-dark);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .project-status {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+  }
+
+  .status--active {
+    background: #fef3c7;
+    color: var(--color-status-progress);
+  }
+
+  .status--completed {
+    background: var(--color-teal-soft);
+    color: var(--color-status-completed);
+  }
+
+  .status--planned {
+    background: #f3f4f6;
+    color: var(--color-status-planned);
+  }
+
+  .project-title {
+    font-size: 1.125rem;
+    margin: 0.75rem 0 0.5rem;
+  }
+
+  .project-title a {
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .project-title a:hover {
+    color: var(--color-accent);
+  }
+
+  .project-desc {
+    font-size: 0.9375rem;
+    color: var(--color-ink-muted);
+    margin: 0 0 1rem;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    background: var(--color-paper-warm);
+    border: 1px solid var(--color-paper-dark);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius);
+    color: var(--color-ink-muted);
+  }
+</style>
