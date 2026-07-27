@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -29,9 +29,6 @@ jobs:
 
       - name: Build site
         run: npm run build
-        env:
-          # Set to /your-repo-name/ for project pages, or / for user pages
-          BASE_PATH: /robododo-diary/
 
       - uses: actions/upload-pages-artifact@v3
         with:

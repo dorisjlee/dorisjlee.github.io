@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 const base = process.env.BASE_PATH || '/';
 
 export default defineConfig({
-  site: 'https://dorislee.dev',
+  site: 'https://dorisjlee.github.io',
   base,
   integrations: [mdx(), sitemap()],
   markdown: {
