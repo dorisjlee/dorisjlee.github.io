@@ -12,11 +12,11 @@ export async function getStaticPaths() {
 }
 
 const { experiment } = Astro.props;
-const { Content } = await render(experiment);
+const { Content, headings } = await render(experiment);
 ---
 
-<PageLayout title={experiment.data.title} description={experiment.data.description}>
-  <ExperimentTemplate experiment={experiment}>
+<PageLayout title={experiment.data.title} description={experiment.data.description} wide={true}>
+  <ExperimentTemplate experiment={experiment} headings={headings}>
     <Content />
   </ExperimentTemplate>
 </PageLayout>

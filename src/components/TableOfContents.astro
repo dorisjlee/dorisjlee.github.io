@@ -1,0 +1,175 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+// Only top two heading levels used in post bodies (## and ###) keep the nav scannable.
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+  items.length > 0 && (
+    <>
+      <details class="toc toc--mobile">
+        <summary>On this page</summary>
+        <nav aria-label="Table of contents">
+          <ul>
+            {items.map((h) => (
+              <li class:list={[`depth-${h.depth}`]}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </details>
+
+      <nav class="toc toc--desktop" aria-label="Table of contents">
+        <p class="toc-label">On this page</p>
+        <ul>
+          {items.map((h) => (
+            <li class:list={[`depth-${h.depth}`]}>
+              <a href={`#${h.slug}`} data-toc-link data-target={h.slug}>
+                {h.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </>
+  )
+}
+
+<script>
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+  if (links.length > 0) {
+    const targets = Array.from(links)
+      .map((link) => document.getElementById(link.dataset.target ?? ''))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const setActive = (id: string) => {
+      links.forEach((link) => {
+        link.classList.toggle('is-active', link.dataset.target === id);
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length > 0) {
+          setActive(visible[0].target.id);
+        }
+      },
+      { rootMargin: '-15% 0px -70% 0px', threshold: 0 },
+    );
+
+    targets.forEach((el) => observer.observe(el));
+  }
+</script>
+
+<style>
+  .toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .toc li {
+    margin: 0;
+  }
+
+  .toc a {
+    display: block;
+    text-decoration: none;
+    color: var(--color-ink-muted);
+    font-family: var(--font-sans);
+    line-height: 1.4;
+  }
+
+  .toc a:hover {
+    color: var(--color-accent);
+  }
+
+  /* Mobile: collapsible dropdown above the post */
+  .toc--mobile {
+    display: block;
+    margin-bottom: 2rem;
+    background: var(--color-paper-warm);
+    border: 1px solid var(--color-paper-dark);
+    border-radius: var(--radius-lg);
+    padding: 0.25rem 1rem;
+  }
+
+  .toc--mobile summary {
+    cursor: pointer;
+    padding: 0.75rem 0;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--color-ink);
+  }
+
+  .toc--mobile nav {
+    padding-bottom: 0.75rem;
+  }
+
+  .toc--mobile a {
+    font-size: 0.9375rem;
+    padding: 0.35rem 0;
+  }
+
+  .toc--mobile .depth-3 {
+    padding-left: 1rem;
+  }
+
+  /* Desktop: sticky sidebar */
+  .toc--desktop {
+    display: none;
+  }
+
+  .toc-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-ink-faint);
+    margin: 0 0 0.75rem;
+  }
+
+  .toc--desktop a {
+    font-size: 0.875rem;
+    padding: 0.3rem 0 0.3rem 0.75rem;
+    border-left: 2px solid var(--color-paper-dark);
+  }
+
+  .toc--desktop .depth-3 a {
+    padding-left: 1.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .toc--desktop a.is-active {
+    color: var(--color-accent);
+    border-left-color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  @media (min-width: 1024px) {
+    .toc--mobile {
+      display: none;
+    }
+
+    .toc--desktop {
+      display: block;
+      position: sticky;
+      top: calc(var(--header-height) + 1.5rem);
+      max-height: calc(100vh - var(--header-height) - 3rem);
+      overflow-y: auto;
+    }
+  }
+</style>

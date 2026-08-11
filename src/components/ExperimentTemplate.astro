@@ -1,12 +1,15 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
 import { withBase } from '../utils/url';
+import TableOfContents from './TableOfContents.astro';
 
 interface Props {
   experiment: CollectionEntry<'experiments'>;
+  headings?: MarkdownHeading[];
 }
 
-const { experiment } = Astro.props;
+const { experiment, headings = [] } = Astro.props;
 const { data } = experiment;
 
 const formattedDate = data.date.toLocaleDateString('en-US', {
@@ -32,8 +35,11 @@ const formattedDate = data.date.toLocaleDateString('en-US', {
     }
   </header>
 
-  <div class="prose post-body">
-    <slot />
+  <div class="post-layout">
+    <TableOfContents headings={headings} />
+    <div class="prose post-body">
+      <slot />
+    </div>
   </div>
 
   <nav class="post-footer-nav">
@@ -44,12 +50,31 @@ const formattedDate = data.date.toLocaleDateString('en-US', {
 <style>
   .post {
     padding-top: 2rem;
+    max-width: var(--content-width);
+    margin-inline: auto;
   }
 
   .post-header {
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
     border-bottom: 2px solid var(--color-ink);
+    max-width: var(--content-width);
+  }
+
+  .post-layout {
+    display: grid;
+    gap: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .post {
+      max-width: calc(var(--content-width) + 240px);
+    }
+
+    .post-layout {
+      grid-template-columns: 200px 1fr;
+      align-items: start;
+    }
   }
 
   .post-date {

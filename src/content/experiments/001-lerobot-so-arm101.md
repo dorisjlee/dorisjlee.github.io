@@ -11,9 +11,11 @@ tags:
   - beginner
   - lessons-learned
 ---
-# Getting Started with the SO-ARM101: What Nobody Tells You
 
 I'm new to robotics, and I wanted to write down what getting started with the [SO-ARM101](https://github.com/TheRobotStudio/SO-ARM100) and [LeRobot](https://huggingface.co/docs/lerobot) actually looked like—not the polished version, but the real one.
+
+This was the task I wanted to train my robot to do, seems simple right? 
+<img src="/videos/success-first-task.gif" alt="Robot successfully completing the place-yellow-rectangle task after training" />
 
 ## Why I Picked the SO-ARM101
 
@@ -94,7 +96,7 @@ In my experience, plugging everything directly into dedicated USB ports was much
 All things combined these seem like tiny details, but it easily cost me several days of reconfiguration.
 
 ## Relative position of leader and follower arm
-One misconception I had early on was thinking the leader and follower arms should sit next to each other because that's how almost every tutorial video shows them.
+One misconception I had early on was thinking the leader and follower arms should sit next to each other.
 
 In reality, you should think of your leader arm as remote control. It doesn't matter where you put the remote control, but what you are controling should stay fixed.
 
@@ -109,9 +111,15 @@ The leader arm became something I could move around whenever it was convenient, 
 
 One upgrade that ended up being far more valuable than I expected was building a dedicated workspace.
 
-I based mine on the [lightbox design](https://docs.nvidia.com/learning/physical-ai/sim-to-real-so-101/latest/05-building-workspace.html) created by Shane Reetz at NVIDIA. The design is surprisingly simple: it's made from inexpensive foam poster boards (about **$2 each**) held together with either tape or these clever [3D-printed corner joints](https://www.printables.com/model/1652109-foam-board-joints-for-lightbox). In less than an hour, you end up with something that looks remarkably close to a professional vision setup.
+<img src="/images/desk_setup_annotated.png" alt="Full Desk Setup" />
+
+
+I based mine on the [lightbox design](https://docs.nvidia.com/learning/physical-ai/sim-to-real-so-101/latest/05-building-workspace.html) created by Shane Reetz at NVIDIA. The design is surprisingly simple: it's made from inexpensive foam poster boards held together with either tape or these clever [3D-printed corner joints](https://www.printables.com/model/1652109-foam-board-joints-for-lightbox). In less than an hour, you end up with something that looks remarkably close to a professional vision setup.
 
 I did make one modification. Instead of adding the top foam board, I left the top open because I already had an overhead ring light mounted on a stand. This let me position the overhead camera directly above the workspace while also providing even, diffuse lighting across the entire scene.
+
+<img src="/images/lightbox.jpeg" alt="Lightbox Setup" />
+
 
 Technically, none of this is required. You can absolutely collect demonstrations on a regular desk.
 
@@ -207,7 +215,7 @@ Unlike software, where you can usually refactor things later, changing your came
 
 If you search online, you'll find dozens of SO-ARM101 tutorials, and almost every single one has a slightly different camera setup.
 
-Some people mount the overhead camera directly above the robot. Others use a diagonal angle. Some zoom in tightly on the workspace, while others capture the entire table.
+Some people mount the [overhead camera directly above the robot](https://github.com/TheRobotStudio/SO-ARM100/blob/main/Optional/Overhead_Cam_Mount_Webcam/README.md). Others use a diagonal angle. Some zoom in tightly on the workspace, while others capture the entire table.
 
 What the tutorials rarely explain is **why** they chose that particular angle.
 
@@ -232,7 +240,7 @@ This became especially noticeable during grasping. The camera could clearly see 
 
 A slightly angled overhead camera can provide additional depth cues while still capturing the entire workspace.
 
-## Wrist Camera (Egocentric View)
+## Wrist Camera: Egocentric View
 
 Having overhead camera provides global scene context, while the wrist camera provided the robot's local perspective during grasping.
 
@@ -265,6 +273,34 @@ This also made teleoperation much more ergonomic. Instead of rotating the wrist 
 A good rule of thumb:
 
 > Before collecting demonstrations, position the robot exactly how it will start during deployment, then look through the camera feeds. What does the robot actually see?
+
+One subtle detail that I did not see discussed much in tutorials is the **exact** starting orientation of the wrist camera.
+
+The way the SO-ARM101 is designed, it is very natural to assume that the resting position is with the gripper handle pointing downward. The physical design almost encourages this—it looks like the "neutral" position of the arm.
+
+However, for teleoperation and data collection, I found that this is not actually the best starting pose.
+
+The position that worked best for me was having the wrist camera at the **12 o'clock position** relative to the gripper. In other words, when the follower arm is in its neutral starting pose, the wrist camera should naturally look forward toward the workspace instead of pointing off to the side.
+
+<img src="/images/wristcam_orientation.png" alt="Correct Wrist Camera Orientation" />
+
+The leader arm should also be held in a similar neutral orientation during teleoperation.
+
+This ended up being important for a few reasons.
+
+First, it gives the wrist camera the correct initial view. Before the robot starts moving, the camera can already see the workspace and the object it needs to interact with. This matters because the policy can only make decisions based on the observations available in the video frames. If the object is not visible at the beginning of the episode, the model has no way to know where it is.
+
+<img src="/videos/target-not-visible.gif" alt="Wrist camera episode where the target object is not visible in the initial frame" />
+
+Second, it is much more ergonomic for collecting demonstrations. With the wrist camera positioned correctly, I can hold the leader arm naturally without constantly twisting my wrist to match the follower arm. Since collecting a dataset means repeating the same motion dozens or hundreds of times, small ergonomic issues quickly become painful and can affect the consistency of demonstrations.
+
+One small teleoperation trick that also helped: I used my **other hand to open and close the gripper** during demonstrations.
+
+<img src="/videos/leader-gripper.gif" alt="Orientation and gripper operation of leader arm" />
+
+While it is possible to manipulate everything with one hand, I found it much easier and more natural to use two hands—one hand controlling the leader arm movement and the other hand operating the gripper. This gave me better control and reduced awkward finger movements, especially when collecting many episodes back-to-back.
+
+This is one of those details that seems obvious only after you discover it. The robot's mechanical "resting position" is not necessarily the best data collection position. You need to think about both perspectives: what is comfortable for the human collecting demonstrations and what information is available to the robot at the start of every task.
 
 ## Inspect Your Recordings!!!
 
@@ -302,38 +338,6 @@ Before collecting hundreds of demonstrations, I now check:
 
 A few minutes of watching your recordings can save hours of training and debugging.
 
-## The Correct Wrist Camera Starting Position
-
-[Add photo]
-
-One subtle detail that I did not see discussed much in tutorials is the **starting orientation of the wrist camera**.
-
-The way the SO-ARM101 is designed, it is very natural to assume that the resting position is with the gripper handle pointing downward. The physical design almost encourages this—it looks like the "neutral" position of the arm.
-
-However, for teleoperation and data collection, I found that this is not actually the best starting pose.
-
-The position that worked best for me was having the wrist camera at the **12 o'clock position** relative to the gripper. In other words, when the follower arm is in its neutral starting pose, the wrist camera should naturally look forward toward the workspace instead of pointing off to the side.
-
-[Add photo]
-
-The leader arm should also be held in a similar neutral orientation during teleoperation:
-
-[Add photo]
-
-This ended up being important for a few reasons.
-
-First, it gives the wrist camera the correct initial view. Before the robot starts moving, the camera can already see the workspace and the object it needs to interact with. This matters because the policy can only make decisions based on the observations available in the video frames. If the object is not visible at the beginning of the episode, the model has no way to know where it is.
-
-Second, it is much more ergonomic for collecting demonstrations. With the wrist camera positioned correctly, I can hold the leader arm naturally without constantly twisting my wrist to match the follower arm. Since collecting a dataset means repeating the same motion dozens or hundreds of times, small ergonomic issues quickly become painful and can affect the consistency of demonstrations.
-
-One small teleoperation trick that also helped: I used my **other hand to open and close the gripper** during demonstrations.
-
-[add video]
-
-While it is possible to manipulate everything with one hand, I found it much easier and more natural to use two hands—one hand controlling the leader arm movement and the other hand operating the gripper. This gave me better control and reduced awkward finger movements, especially when collecting many episodes back-to-back.
-
-This is one of those details that seems obvious only after you discover it. The robot's mechanical "resting position" is not necessarily the best data collection position. You need to think about both perspectives: what is comfortable for the human collecting demonstrations and what information is available to the robot at the start of every task.
-
 ## A Small Note on Wrist Camera Privacy
 
 One final thing to consider if you are uploading datasets publicly to the [Hugging Face Hub](https://huggingface.co/):
@@ -342,9 +346,7 @@ One final thing to consider if you are uploading datasets publicly to the [Huggi
 
 Because the camera moves with the robot, it can easily capture parts of your room that you did not intend to share. As the wrist rotates, it may point toward you, your monitor, family photos, or other personal items.
 
-I ran into this myself while reviewing recordings.
-
-Building a lightbox helped tremendously because the robot mostly saw the controlled workspace instead of my office. Rotating the wrist camera downward also reduced how much of the surrounding environment appeared in the recordings.
+Building a lightbox helped tremendously because the robot mostly saw the controlled workspace instead of my office. This is another reason why it is recommended to point the wrist cam downwards as the starting orientation. Rotating the wrist camera downward reduced how much of the surrounding environment appeared in the recordings.
 
 # What Finally Worked (and What I Learned)
 
@@ -371,7 +373,11 @@ But after spending weeks wrestling with operating systems, drivers, cameras, USB
 
 Three computers, one new desk, and many debugging sessions later...
 
-*(Insert demo video here.)*
+This is the final collected dataset after all the changes above — lightbox, fixed camera placement, corrected wrist orientation. It only took **40 episodes** to get enough consistent demonstrations for training: [dataset repo](https://huggingface.co/datasets/robododo/place-yellow-rectangle-lightbox) · [visualizer](https://huggingface.co/spaces/lerobot/visualize_dataset?path=%2Frobododo%2Fplace-yellow-rectangle-lightbox%2Fepisode_0)
+
+And here's the resulting rollout after training — the policy was able to generalize quite well: [dataset repo](https://huggingface.co/datasets/robododo/rollout_place_yellow_rectangle_act_20260718_060210) · [visualizer](https://huggingface.co/spaces/lerobot/visualize_dataset?path=%2Frobododo%2Frollout_place_yellow_rectangle_act_20260718_060210%2Fepisode_0)
+
+<img src="/videos/success-first-task.gif" alt="Robot successfully completing the place-yellow-rectangle task after training" />
 
 The most surprising part was how magical it felt when everything finally worked.
 
@@ -381,7 +387,7 @@ Then suddenly, the robot moved.
 
 It picked up the object.
 
-It completed the task.
+It completed the task. It even generalized to blocks with slightly different shapes, color, and sizes! More on this in next blogpost...
 
 And for a moment, all of those frustrating details disappeared.
 
@@ -423,12 +429,6 @@ This was an incredibly humbling experience.
 
 I came into this project expecting the hard part to be training the policy. Instead, I learned that the hardest part is building a reliable system where the physical world and the software stack can iterate together.
 
-If you are starting out with robotics, my biggest advice is:
-
-**Budget a month, not a weekend.**
-
-Not because the algorithms are impossible, but because getting the physical and digital environment working together is a huge part of the challenge.
-
-Once the environment stops fighting you, that's when the real fun begins.
+Getting the physical and digital environment working together is a huge part of the challenge. Once the environment stops fighting you, that's when the real fun begins.
 
 In my next post, I'll go deeper into the actual Physical AI workflow: reproducing the block pick-and-place task, collecting and improving demonstrations, training ACT policies with [LeRobot](https://huggingface.co/docs/lerobot), and evaluating what transfers beyond the original setup. I'll share the failures as much as the successes—what generalized surprisingly well, what didn't, and what I learned from iterating with a real robot.
