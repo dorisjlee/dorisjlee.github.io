@@ -111,7 +111,7 @@ The leader arm became something I could move around whenever it was convenient, 
 
 One upgrade that ended up being far more valuable than I expected was building a dedicated workspace.
 
-<img src="/images/desk_setup_annotated.png" alt="Full Desk Setup" />
+<img src="/images/desk_setup_annotated.jpg" alt="Full Desk Setup" />
 
 
 I based mine on the [lightbox design](https://docs.nvidia.com/learning/physical-ai/sim-to-real-so-101/latest/05-building-workspace.html) created by Shane Reetz at NVIDIA. The design is surprisingly simple: it's made from inexpensive foam poster boards held together with either tape or these clever [3D-printed corner joints](https://www.printables.com/model/1652109-foam-board-joints-for-lightbox). In less than an hour, you end up with something that looks remarkably close to a professional vision setup.
@@ -248,9 +248,7 @@ The second camera in the SO-ARM101 setup is the **wrist camera**, sometimes call
 
 Many imitation learning policies—including the default LeRobot examples—use both camera views. The overhead camera provides global context (where objects are on the table), while the wrist camera captures fine-grained details as the robot approaches, grasps, and manipulates objects. Together, they give the policy a much richer understanding of the scene than either view alone.
 
-One thing to note is that **not every SO-ARM101 kit includes a wrist camera**. My kit from SeeedStudio came with one pre-installed, but if you're building your own robot or purchased a version without it, TheRobotStudio provides an official 3D-printable mount for a standard 32×32 UVC camera:
-
-https://github.com/TheRobotStudio/SO-ARM100/tree/main/Optional/Wrist_Cam_Plug_Mount_32x32_UVC_Module
+One thing to note is that not every SO-ARM101 kit includes a wrist camera (this is one thing to pay attention to when purchasing a kit). My [kit from SeeedStudio](https://www.seeedstudio.com/SO-ARM-101-Assembled-Kit-Pro-p-6691.html) came with one pre-installed, but if you're building your own robot or purchased a version without it, you can also [3D print the camera bracket](https://github.com/TheRobotStudio/SO-ARM100/tree/main/Optional/Wrist_Cam_Plug_Mount_32x32_UVC_Module).
 
 ## Wrist Camera: Starting Orientation Matters
 
@@ -282,7 +280,7 @@ However, for teleoperation and data collection, I found that this is not actuall
 
 The position that worked best for me was having the wrist camera at the **12 o'clock position** relative to the gripper. In other words, when the follower arm is in its neutral starting pose, the wrist camera should naturally look forward toward the workspace instead of pointing off to the side.
 
-<img src="/images/wristcam_orientation.png" alt="Correct Wrist Camera Orientation" />
+<img src="/images/wristcam_orientation.jpg" alt="Correct Wrist Camera Orientation" />
 
 The leader arm should also be held in a similar neutral orientation during teleoperation.
 
