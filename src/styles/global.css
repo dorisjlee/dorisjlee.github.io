@@ -117,9 +117,7 @@ video {
 code {
   font-family: var(--font-mono);
   font-size: 0.875em;
-  background: var(--color-paper-dark);
-  padding: 0.15em 0.4em;
-  border-radius: 0.25rem;
+  color: var(--color-accent);
 }
 
 pre {
@@ -188,6 +186,31 @@ li {
   background: var(--color-paper-warm);
   font-style: italic;
   color: var(--color-ink-muted);
+}
+
+.prose table {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.prose th,
+.prose td {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--color-paper-dark);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose thead th {
+  background: var(--color-paper-warm);
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.prose tbody tr:nth-child(even) {
+  background: var(--color-paper-warm);
 }
 
 .prose hr {
