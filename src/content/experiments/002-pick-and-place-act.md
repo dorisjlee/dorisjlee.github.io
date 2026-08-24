@@ -13,6 +13,8 @@ tags:
   - generalization
 ---
 
+<iframe src="https://www.youtube-nocookie.com/embed/xfbMRUC9htc?autoplay=1&mute=1&loop=1&playlist=xfbMRUC9htc&controls=1" style="width: 100%; max-width: 400px; aspect-ratio: 9 / 16; display: block; margin: 0 auto 1.5rem;" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen title="Pick and place task demo"></iframe>
+
 In my [last post](/diary/001-lerobot-so-arm101), I wrote about getting my first SO-ARM101 set up and working end to end — USB ports, CUDA versions, camera placement, wrist orientation. That post was mostly about the environment; I didn't go into much depth on the task itself.
 
 This post is about actually finishing the task properly: picking up a block and placing it into a tray, trained with [ACT](https://huggingface.co/docs/lerobot) on the SO-ARM101. It came down to four steps.
@@ -48,13 +50,15 @@ A few things I paid attention to while collecting:
 - **Starting position.** Every episode started from the same neutral pose with the block already visible in both camera views — the exact lesson from [my last post](/diary/001-lerobot-so-arm101) about the wrist camera needing to see the object from frame one.
 - **Consistent resets.** After placing the block, I reset the arm back to its original starting position before setting up the next episode, so the start of episode was consistent instead of drifting based on wherever the arm happened to end up.
 
-Fixing these data collection issues upstream meant that I only needed around 40 episode to train a usable policy, this is roughly half the data than the initial dataset I collected and still lead to higher quality model.
+Fixing these data collection issues upstream meant that I only needed around 40 episodes to train a usable policy — roughly half the data of the initial dataset I collected, while still leading to a higher quality model.
+
 <img src="/images/wristcam_orientation.jpg" alt="Proper starting position for training data collection" style="max-width: 400px;" />
+
 One optimization that made collection much faster: tuning the episode and reset timing. After a few practice runs, I found I could reliably do the task itself in about 15 seconds, and only needed about 5 seconds to reset the environment between episodes. Locking those numbers in with `--dataset.episode_time_s` and `--dataset.reset_time_s` kept every episode a consistent length and cut out a lot of the dead time I used to spend deciding when to stop recording.
 
 The other thing that made a big difference was the video encoding step. Initially, there was a long pause at the end of every episode while the video got flushed — sometimes over a minute of idle waiting. Two changes fixed this:
 
-- Lowering the overhead camera resolution. Dropped from 1920×1080 down to 640×480 to reduce the amount of data to encode.
+- Lowering the overhead camera resolution. Dropped from 1920×1080 down to 1280×720 to reduce the amount of data to encode.
 - Overriding the default encoding setting to `--dataset.streaming_encoding=true`. This encodes video during recording instead of all at once after each episode ends, so there's no more post-episode flush to sit through.
 
 Together, those two changes made data collection fast and predictable, gated only by the episode/reset seconds I set rather than an unpredictable encoding step. This is what the full collection command looked like:
@@ -87,24 +91,25 @@ I trained an [ACT](https://arxiv.org/pdf/2304.13705) (Action Chunking Transforme
 
 ```bash
 lerobot-train \
-  --dataset.repo_id=robododo/place-rectangle-colored-box \
+  --dataset.repo_id=robododo/place-yellow-rectangle-lightbox \
   --policy.type=act \
   --policy.device=cuda \
-  --policy.repo_id=robododo/sort_blocks_by_color_act_v1 \
-  --output_dir=outputs/train/sort_blocks_by_color_act_v1 \
-  --job_name=sort_blocks_by_color_act_v1 \
+  --output_dir=outputs/train/place_yellow_rectangle_act_v3 \
+  --job_name=place_yellow_rectangle_act_v3 \
+  --policy.repo_id=robododo/place_yellow_rectangle_act_v3 \
+  --wandb.enable=true \
+  --batch_size=8 \
+  --steps=50000 \
+  --num_workers=4 \
   --policy.chunk_size=50 \
-  --policy.n_action_steps=50 \
+  --policy.n_action_steps=10 \
+  --policy.n_obs_steps=2 \
   --policy.dim_model=256 \
   --policy.dim_feedforward=1024 \
   --policy.n_heads=4 \
   --policy.n_encoder_layers=3 \
   --policy.n_decoder_layers=1 \
-  --policy.latent_dim=32 \
-  --policy.n_obs_steps=1 \
-  --steps=30000 \
-  --batch_size=4 \
-  --wandb.enable=true
+  --policy.latent_dim=16
 ```
 
 The result: **[place_yellow_rectangle_act_v3](https://huggingface.co/robododo/place_yellow_rectangle_act_v3)**.
@@ -126,7 +131,7 @@ lerobot-rollout \
     front: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30},
     overhead: {type: opencv, index_or_path: 2, width: 1920, height: 1080, fps: 30}
   }" \
-  --policy.path=robododo/sort_blocks_by_color_act_v1 \
+  --policy.path=robododo/place_yellow_rectangle_act_v3 \
   --strategy.type=base \
   --display_data=true
 ```
@@ -155,7 +160,7 @@ Getting the base task working was the goal, but the more interesting question wa
 
 <iframe src="https://lerobot-visualize-dataset.hf.space/?path=%2Frobododo%2Frollout_place_yellow_rectangle_act_box_color_change_20260718_061452%2Fepisode_0%3Ft%3D81" width="100%" height="900" frameborder="0" loading="lazy" title="Rollout: box color changed"></iframe>
 
-Changing the tray's color broke it — the policy seemed to rely on the tray's color as a fixed target rather than reasoning generally about the container. And multiple objects on the table at once broke it, unsurprisingly, since there was never more than one object present during data collection.
+Changing the tray's color broke it — the policy seemed to rely on the tray's color as a fixed target rather than reasoning generally about the container. Moving the block to new positions also broke it, which makes sense in hindsight: 40 episodes covering a fairly narrow region of the workspace probably wasn't enough to teach spatial generalization, only object-level generalization. And multiple objects on the table at once broke it, unsurprisingly, since there was never more than one object present during data collection.
 
 You can find the two rollout dataset [here](https://huggingface.co/datasets/robododo/rollout_place_yellow_rectangle_act_20260718_060210) and [here](https://huggingface.co/datasets/robododo/rollout_place_yellow_rectangle_act_box_color_change_20260718_061452).
 
