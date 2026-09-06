@@ -2,8 +2,7 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
-// For GitHub Pages project sites, set BASE_PATH to your repo name:
-//   BASE_PATH=/robododo-diary/ npm run build
+// This deploys as a user site (dorisjlee.github.io), so base stays '/'.
 const base = process.env.BASE_PATH || '/';
 
 export default defineConfig({

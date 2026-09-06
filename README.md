@@ -1,6 +1,6 @@
-# Robododo Diary 🤖
+# Doris Lee — Personal Site & Robotics Diary 🤖
 
-Personal website and robotics learning diary for **Doris Lee** — documenting hands-on experiments in Physical AI and real robot systems.
+Personal website for **Doris Lee** — professional homepage with a robotics learning diary documenting hands-on experiments in Physical AI and real robot systems.
 
 Built with [Astro](https://astro.build), Markdown content collections, and GitHub Pages.
 
@@ -34,7 +34,7 @@ src/
 │   ├── index.astro               # Homepage
 │   ├── about.astro
 │   ├── projects.astro
-│   ├── diary/                    # Robododo Diary
+│   ├── diary/                    # Robotics diary
 │   ├── open-source.astro
 │   ├── writing.astro
 │   └── contact.astro
@@ -61,17 +61,13 @@ public/
 
 ## GitHub Pages deployment
 
-1. Push to GitHub
-2. Enable **Pages** → Source: **GitHub Actions**
-3. For project sites (`username.github.io/robododo-diary/`), the workflow sets `BASE_PATH=/robododo-diary/`
-4. For user/org sites (`username.github.io`), change `BASE_PATH` to `/` in `.github/workflows/deploy.yml`
+This site deploys as a user/org site (`dorisjlee.github.io`), so `BASE_PATH` stays `/` in `.github/workflows/deploy.yml`.
 
-Update `site` in `astro.config.mjs` with your actual domain.
+Update `site` in `astro.config.mjs` if the domain ever changes.
 
 ## Customization
 
 - **Contact links**: Edit `src/pages/contact.astro`
-- **GitHub username**: Search/replace `dorislee` across the project
 - **Site URL**: Update `site` in `astro.config.mjs`
 - **Colors & fonts**: Edit CSS variables in `src/styles/global.css`
 

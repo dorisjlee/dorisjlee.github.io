@@ -310,7 +310,7 @@ Do not assume your setup is correct just because the robot looks fine while you 
 
 I learned this the hard way.
 
-I collected [80 episodes of demonstrations](https://huggingface.co/spaces/lerobot/visualize_dataset?path=%2Frobododo%2Fplace-yellow-rectangle_20260702_200850%2Fepisode_8), trained a policy, and spent time debugging why the robot was not performing the task correctly. Eventually, I went back and inspected the videos carefully and realized the problem was obvious:
+I collected [80 episodes of demonstrations](https://huggingface.co/spaces/lerobot/visualize_dataset?path=%2Fdorisjlee%2Fplace-yellow-rectangle_20260702_200850%2Fepisode_8), trained a policy, and spent time debugging why the robot was not performing the task correctly. Eventually, I went back and inspected the videos carefully and realized the problem was obvious:
 
 **The wrist camera never saw the object in the first frame of the episode.**
 
@@ -371,9 +371,9 @@ But after spending weeks wrestling with operating systems, drivers, cameras, USB
 
 Three computers, one new desk, and many debugging sessions later...
 
-This is the final collected dataset after all the changes above — lightbox, fixed camera placement, corrected wrist orientation. It only took **40 episodes** to get enough consistent demonstrations for training: [dataset repo](https://huggingface.co/datasets/robododo/place-yellow-rectangle-lightbox) · [visualizer](https://huggingface.co/spaces/lerobot/visualize_dataset?path=%2Frobododo%2Fplace-yellow-rectangle-lightbox%2Fepisode_0)
+This is the final collected dataset after all the changes above — lightbox, fixed camera placement, corrected wrist orientation. It only took **40 episodes** to get enough consistent demonstrations for training: [dataset repo](https://huggingface.co/datasets/dorisjlee/place-yellow-rectangle-lightbox) · [visualizer](https://huggingface.co/spaces/lerobot/visualize_dataset?path=%2Fdorisjlee%2Fplace-yellow-rectangle-lightbox%2Fepisode_0)
 
-And here's the resulting rollout after training — the policy was able to generalize quite well: [dataset repo](https://huggingface.co/datasets/robododo/rollout_place_yellow_rectangle_act_20260718_060210) · [visualizer](https://huggingface.co/spaces/lerobot/visualize_dataset?path=%2Frobododo%2Frollout_place_yellow_rectangle_act_20260718_060210%2Fepisode_0)
+And here's the resulting rollout after training — the policy was able to generalize quite well: [dataset repo](https://huggingface.co/datasets/dorisjlee/rollout_place_yellow_rectangle_act_20260718_060210) · [visualizer](https://huggingface.co/spaces/lerobot/visualize_dataset?path=%2Fdorisjlee%2Frollout_place_yellow_rectangle_act_20260718_060210%2Fepisode_0)
 
 <img src="/videos/success-first-task.gif" alt="Robot successfully completing the place-yellow-rectangle task after training" />
 

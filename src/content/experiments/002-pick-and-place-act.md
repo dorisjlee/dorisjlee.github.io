@@ -43,7 +43,7 @@ That gave me a setup with exact, repeatable dimensions, clean, consistent color,
 
 ## 2. Collect the Dataset
 
-With the printed objects and clean environment in place, I recorded a new dataset: [place-yellow-rectangle-lightbox](https://huggingface.co/datasets/robododo/place-yellow-rectangle-lightbox).
+With the printed objects and clean environment in place, I recorded a new dataset: [place-yellow-rectangle-lightbox](https://huggingface.co/datasets/dorisjlee/place-yellow-rectangle-lightbox).
 
 A few things I paid attention to while collecting:
 
@@ -75,7 +75,7 @@ lerobot-record \
     front: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30},
     overhead: {type: opencv, index_or_path: 2, width: 1280, height: 720, fps: 30}
   }" \
-  --dataset.repo_id=robododo/place-yellow-rectangle-lightbox \
+  --dataset.repo_id=dorisjlee/place-yellow-rectangle-lightbox \
   --dataset.num_episodes=5 \
   --dataset.single_task="Place Rectangle in Box based on Color" \
   --dataset.rgb_encoder.vcodec=h264 \
@@ -91,12 +91,12 @@ I trained an [ACT](https://arxiv.org/pdf/2304.13705) (Action Chunking Transforme
 
 ```bash
 lerobot-train \
-  --dataset.repo_id=robododo/place-yellow-rectangle-lightbox \
+  --dataset.repo_id=dorisjlee/place-yellow-rectangle-lightbox \
   --policy.type=act \
   --policy.device=cuda \
   --output_dir=outputs/train/place_yellow_rectangle_act_v3 \
   --job_name=place_yellow_rectangle_act_v3 \
-  --policy.repo_id=robododo/place_yellow_rectangle_act_v3 \
+  --policy.repo_id=dorisjlee/place_yellow_rectangle_act_v3 \
   --wandb.enable=true \
   --batch_size=8 \
   --steps=50000 \
@@ -112,7 +112,7 @@ lerobot-train \
   --policy.latent_dim=16
 ```
 
-The result: **[place_yellow_rectangle_act_v3](https://huggingface.co/robododo/place_yellow_rectangle_act_v3)**.
+The result: **[place_yellow_rectangle_act_v3](https://huggingface.co/dorisjlee/place_yellow_rectangle_act_v3)**.
 
 <img src="/videos/success-first-task.gif" alt="ACT policy successfully placing the yellow block into the tray" />
 
@@ -131,7 +131,7 @@ lerobot-rollout \
     front: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30},
     overhead: {type: opencv, index_or_path: 2, width: 1920, height: 1080, fps: 30}
   }" \
-  --policy.path=robododo/place_yellow_rectangle_act_v3 \
+  --policy.path=dorisjlee/place_yellow_rectangle_act_v3 \
   --strategy.type=base \
   --display_data=true
 ```
@@ -140,7 +140,7 @@ Overall, it's able to perform the task well. It has learned the colors and match
 
 **Base rollout**
 
-<iframe src="https://lerobot-visualize-dataset.hf.space/?path=%2Frobododo%2Frollout_place_yellow_rectangle_act_20260718_060210%2Fepisode_0%3Ft%3D7" width="100%" height="900" frameborder="0" loading="lazy" title="Rollout: base task"></iframe>
+<iframe src="https://lerobot-visualize-dataset.hf.space/?path=%2Fdorisjlee%2Frollout_place_yellow_rectangle_act_20260718_060210%2Fepisode_0%3Ft%3D7" width="100%" height="900" frameborder="0" loading="lazy" title="Rollout: base task"></iframe>
 
 Getting the base task working was the goal, but the more interesting question was what the policy generalizes to. I trained on exactly one yellow rectangular block and one yellow tray. Nothing else was ever in the training data. So I started swapping things out, one variable at a time.
 
@@ -158,14 +158,14 @@ Getting the base task working was the goal, but the more interesting question wa
 
 **Rollout with the box color changed**
 
-<iframe src="https://lerobot-visualize-dataset.hf.space/?path=%2Frobododo%2Frollout_place_yellow_rectangle_act_box_color_change_20260718_061452%2Fepisode_0%3Ft%3D81" width="100%" height="900" frameborder="0" loading="lazy" title="Rollout: box color changed"></iframe>
+<iframe src="https://lerobot-visualize-dataset.hf.space/?path=%2Fdorisjlee%2Frollout_place_yellow_rectangle_act_box_color_change_20260718_061452%2Fepisode_0%3Ft%3D81" width="100%" height="900" frameborder="0" loading="lazy" title="Rollout: box color changed"></iframe>
 
 Changing the tray's color broke it — the policy seemed to rely on the tray's color as a fixed target rather than reasoning generally about the container. Moving the block to new positions also broke it, which makes sense in hindsight: 40 episodes covering a fairly narrow region of the workspace probably wasn't enough to teach spatial generalization, only object-level generalization. And multiple objects on the table at once broke it, unsurprisingly, since there was never more than one object present during data collection.
 
-You can find the two rollout dataset [here](https://huggingface.co/datasets/robododo/rollout_place_yellow_rectangle_act_20260718_060210) and [here](https://huggingface.co/datasets/robododo/rollout_place_yellow_rectangle_act_box_color_change_20260718_061452).
+You can find the two rollout dataset [here](https://huggingface.co/datasets/dorisjlee/rollout_place_yellow_rectangle_act_20260718_060210) and [here](https://huggingface.co/datasets/dorisjlee/rollout_place_yellow_rectangle_act_box_color_change_20260718_061452).
 
 ## Summary and Next Steps
 
-Stepping back, training a simple pick and place task came down to four steps: design a task simple enough to nail end-to-end, build objects that remove unnecessary variation instead of adding it, collect a small but clean dataset, and train ACT on top of it. You can try this yourself. My trained model is [up on Hugging Face](https://huggingface.co/robododo/place_yellow_rectangle_act_v3), you can download my model on [MakerWorld](https://makerworld.com/en/models/3207318-pick-and-place-robotics-task), and my full setup — hardware, environment, camera placement — is in the [previous post](/diary/001-lerobot-so-arm101). Let me know what you think!
+Stepping back, training a simple pick and place task came down to four steps: design a task simple enough to nail end-to-end, build objects that remove unnecessary variation instead of adding it, collect a small but clean dataset, and train ACT on top of it. You can try this yourself. My trained model is [up on Hugging Face](https://huggingface.co/dorisjlee/place_yellow_rectangle_act_v3), you can download my model on [MakerWorld](https://makerworld.com/en/models/3207318-pick-and-place-robotics-task), and my full setup — hardware, environment, camera placement — is in the [previous post](/diary/001-lerobot-so-arm101). Let me know what you think!
 
 Next up, to extend the capabilities of my SO-101, I'm going to train my robot to sort the blocks by color, with multiple blocks and multiple trays on the table at once. More to come in the next post!
