@@ -9,17 +9,12 @@ const posts = (await getCollection('experiments')).sort(
 ---
 
 <PageLayout
-  title="Diary"
-  description="A robotics learning diary documenting lessons from building real robot systems as a beginner."
+  title="Blog"
   wide={true}
 >
   <header class="diary-header">
-    <p class="diary-eyebrow">🤖 Robotics Diary</p>
+    <p class="diary-eyebrow">🤖 Robotics Blog</p>
     <h1>Field notes from learning robotics</h1>
-    <p class="diary-intro">
-      Not a blog optimized for anything. Just honest notes from teaching myself Physical AI —
-      the setup pain, the wrong turns, and what I actually learned along the way.
-    </p>
   </header>
 
   <section class="post-list" aria-labelledby="posts-heading">
@@ -44,13 +39,6 @@ const posts = (await getCollection('experiments')).sort(
   }
 
   .diary-header h1 {
-    margin: 0 0 1rem;
-  }
-
-  .diary-intro {
-    font-size: 1.125rem;
-    color: var(--color-ink-muted);
-    max-width: 40rem;
     margin: 0;
   }
 

@@ -3,11 +3,18 @@ import PageLayout from '../layouts/PageLayout.astro';
 import ExperimentCard from '../components/ExperimentCard.astro';
 import { getCollection } from 'astro:content';
 import { withBase } from '../utils/url';
+import { shorts } from '../data/shorts';
 
 const experiments = (await getCollection('experiments'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const featured = experiments.filter((e) => e.data.featured).slice(0, 3);
+
+// Shorts carousel shows 2 videos side by side per page, paging through
+// the rest if there are more than 2.
+const shortsVisibleCount = Math.min(2, shorts.length);
+const shortsPageCount = Math.ceil(shorts.length / shortsVisibleCount) || 1;
+const shortCardWidthPercent = 100 / (shortsVisibleCount * shortsPageCount);
 ---
 
 <PageLayout title="Doris Lee" wide={true}>
@@ -21,12 +28,89 @@ const featured = experiments.filter((e) => e.data.featured).slice(0, 3);
           This is my field notebook documenting my experiments with robot learning, where I share lessons, discoveries, and challenges from my journey
   into robotics — from real-world robot learning to simulation and beyond. Stay tuned for more content coming soon!
         </p>
-        <div class="hero-actions">
-          <a href={withBase('/diary')} class="btn btn--primary">Read the Diary 🤖</a>
-        </div>
       </div>
+
+      {shorts.length > 0 && (
+        <div class="shorts-carousel" id="shorts-carousel">
+          <div class="shorts-viewport">
+            <div class="shorts-track" style={`width: ${shortsPageCount * 100}%`}>
+              {shorts.map((short) => {
+                const href = short.postSlug
+                  ? withBase(`/diary/${short.postSlug}`)
+                  : `https://www.youtube.com/shorts/${short.youtubeId}`;
+                const external = !short.postSlug;
+                return (
+                  <a
+                    href={href}
+                    class="short-card"
+                    style={`width: ${shortCardWidthPercent}%`}
+                    target={external ? '_blank' : undefined}
+                    rel={external ? 'noopener noreferrer' : undefined}
+                  >
+                    <div class="short-thumb">
+                      <iframe
+                        src={`https://www.youtube-nocookie.com/embed/${short.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${short.youtubeId}&controls=0&modestbranding=1&playsinline=1&rel=0`}
+                        title={short.caption}
+                        loading="lazy"
+                        frameborder="0"
+                        allow="autoplay; encrypted-media"
+                      ></iframe>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+          {shortsPageCount > 1 && (
+            <div class="shorts-dots">
+              {Array.from({ length: shortsPageCount }).map((_, i) => (
+                <button class="short-dot" data-index={i} aria-label={`Show shorts page ${i + 1}`}></button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   </section>
+
+  <script>
+    const carousel = document.getElementById('shorts-carousel');
+    if (carousel) {
+      const track = carousel.querySelector<HTMLElement>('.shorts-track');
+      const dots = carousel.querySelectorAll<HTMLElement>('.short-dot');
+      const pageCount = dots.length || 1;
+      let page = 0;
+      let timer: ReturnType<typeof setInterval>;
+
+      function goTo(p: number) {
+        page = (p + pageCount) % pageCount;
+        if (track) track.style.transform = `translateX(-${(page * 100) / pageCount}%)`;
+        dots.forEach((dot, di) => dot.classList.toggle('active', di === page));
+      }
+
+      function start() {
+        timer = setInterval(() => goTo(page + 1), 6000);
+      }
+
+      function stop() {
+        clearInterval(timer);
+      }
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          goTo(i);
+          stop();
+          start();
+        });
+      });
+
+      carousel.addEventListener('mouseenter', stop);
+      carousel.addEventListener('mouseleave', start);
+
+      goTo(0);
+      if (pageCount > 1) start();
+    }
+  </script>
 
   <section class="latest" aria-labelledby="latest-heading">
     <div class="section-header">
@@ -46,7 +130,7 @@ const featured = experiments.filter((e) => e.data.featured).slice(0, 3);
 
   .hero-grid {
     display: grid;
-    grid-template-columns: 1fr 280px;
+    grid-template-columns: 1fr 380px;
     gap: 3rem;
     align-items: start;
   }
@@ -186,6 +270,77 @@ const featured = experiments.filter((e) => e.data.featured).slice(0, 3);
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.25rem;
+  }
+
+  .shorts-carousel {
+    width: 100%;
+  }
+
+  .shorts-viewport {
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+  }
+
+  .shorts-track {
+    display: flex;
+    transition: transform 0.4s ease;
+  }
+
+  .short-card {
+    display: block;
+    flex-shrink: 0;
+    text-decoration: none;
+    color: inherit;
+    padding: 0 0.125rem;
+    box-sizing: border-box;
+  }
+
+  .shorts-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+  }
+
+  .short-dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 999px;
+    border: none;
+    padding: 0;
+    background: var(--color-paper-dark);
+    cursor: pointer;
+  }
+
+  .short-dot.active {
+    background: var(--color-accent);
+  }
+
+  .short-thumb {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--color-paper-warm);
+    border: 1px solid var(--color-paper-dark);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s;
+  }
+
+  .short-card:hover .short-thumb {
+    transform: translateY(-2px);
+  }
+
+  .short-thumb iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    /* No controls and autoplaying — disable interaction so clicks on the
+       card fall through to the wrapping <a>, since an iframe would
+       otherwise swallow the click before it reaches the link. */
+    pointer-events: none;
   }
 
   .about-snippet blockquote {
