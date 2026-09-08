@@ -13,7 +13,7 @@ tags:
   - generalization
 ---
 
-<iframe src="https://www.youtube-nocookie.com/embed/xfbMRUC9htc?autoplay=1&mute=1&loop=1&playlist=xfbMRUC9htc&controls=1" style="width: 100%; max-width: 400px; aspect-ratio: 9 / 16; display: block; margin: 0 auto 1.5rem;" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen title="Pick and place task demo"></iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/QowCPleHGvk?autoplay=1&mute=1&loop=1&playlist=QowCPleHGvk&controls=1" style="width: 100%; max-width: 400px; aspect-ratio: 9 / 16; display: block; margin: 0 auto 1.5rem;" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen title="Pick and place task demo"></iframe>
 
 In my [last post](/diary/001-lerobot-so-arm101), I wrote about getting my first SO-ARM101 set up and working end to end — USB ports, CUDA versions, camera placement, wrist orientation. That post was mostly about the environment; I didn't go into much depth on the task itself.
 

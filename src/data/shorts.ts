@@ -13,7 +13,8 @@ export type Short = {
 export const shorts: Short[] = [
   {
     youtubeId: 'kappIozO9ys',
-    caption: 'Sorting blocks by color — full write-up coming soon',
+    caption: 'Sorting blocks by color',
+    postSlug: '004-sorting-blocks-by-color',
   },
   {
     youtubeId: 'QowCPleHGvk',
