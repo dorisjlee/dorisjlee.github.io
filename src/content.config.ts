@@ -9,6 +9,9 @@ const experiments = defineCollection({
     description: z.string(),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
+    // Social share preview (og:image): path under public/, ideally 1200x630
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
   }),
 });
 

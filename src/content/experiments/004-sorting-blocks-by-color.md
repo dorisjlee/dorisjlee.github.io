@@ -2,6 +2,8 @@
 title: "Sorting Blocks by Color: From One Tray to Two"
 date: 2026-09-07
 featured: true
+image: /images/og/sorting-blocks-by-color.jpg
+imageAlt: "SO-ARM101 placing a green block into the green tray, with wrist camera view"
 description: |
   My single-color pick-and-place policy generalized to new shapes and colors, but broke the
   moment I changed the tray's color. So I built a real sorting task: two trays, two colors,

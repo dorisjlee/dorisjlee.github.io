@@ -2,6 +2,8 @@
 title: "Pick and Place, For Real: Training ACT on the SO-ARM101"
 date: 2026-08-22
 featured: true
+image: /images/og/basic-pick-and-place-act.jpg
+imageAlt: "SO-ARM101 reaching for a yellow block above a yellow tray"
 description: |
   Four steps to a working pick-and-place policy: 3D printing my own tray and block, collecting a
   clean 40-episode dataset, training ACT, and then trying to break it to see what generalizes.

@@ -16,7 +16,14 @@ const { experiment } = Astro.props;
 const { Content, headings } = await render(experiment);
 ---
 
-<PageLayout title={experiment.data.title} description={experiment.data.description} wide={true}>
+<PageLayout
+  title={experiment.data.title}
+  description={experiment.data.description}
+  image={experiment.data.image}
+  imageAlt={experiment.data.imageAlt ?? experiment.data.title}
+  ogType="article"
+  wide={true}
+>
   <ExperimentTemplate experiment={experiment} headings={headings}>
     <Content />
   </ExperimentTemplate>

@@ -2,6 +2,8 @@
 title: "Debugging a Regression: Recalibrating the Workspace by Replaying Training Trajectories"
 date: 2026-08-29
 featured: true
+image: /images/og/recalibrating-workspace-replay.jpg
+imageAlt: "Diagram of the calibrated workspace: trays, block, arm, and camera positions"
 description: |
   My color-sorting ACT policy suddenly started missing the block, reaching to the same spot
   every time regardless of where the block actually was. Here's how I used the raw recorded

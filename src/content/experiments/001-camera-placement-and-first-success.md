@@ -2,6 +2,8 @@
 title: "Getting Started with the SO-ARM101, Part 2: Cameras, Data Quality, and the First Success"
 date: 2026-07-30
 featured: true
+image: /images/og/camera-placement-and-first-success.jpg
+imageAlt: "SO-ARM101 wrist camera above a yellow block, next to the leader arm gripper"
 description: |
   Part 2: once the workspace and compute environment stopped fighting me, the next challenge was
   camera placement and data quality. What the robot actually sees turned out to matter more than

@@ -2,6 +2,8 @@
 title: "Getting Started with the SO-ARM101, Part 1: Your Desk and Your Computer Are Part of the Robot"
 date: 2026-07-25
 featured: true
+image: /images/og/lerobot-so-arm101.jpg
+imageAlt: "Annotated desk setup: light box, follower arm, leader arm, overhead camera, and computer"
 description: |
   I thought setting up a robot arm and LeRobot would be a weekend project. It took about a month —
   and almost none of that time was actually about robotics. Part 1: the workspace and compute

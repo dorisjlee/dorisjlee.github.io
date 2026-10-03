@@ -7,12 +7,15 @@ interface Props {
   title: string;
   description?: string;
   wide?: boolean;
+  image?: string;
+  imageAlt?: string;
+  ogType?: string;
 }
 
-const { title, description, wide = false } = Astro.props;
+const { title, description, wide = false, image, imageAlt, ogType } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} image={image} imageAlt={imageAlt} ogType={ogType}>
   <Header slot="header" />
   <div class:list={['page', { 'page--wide': wide }]}>
     <slot />
