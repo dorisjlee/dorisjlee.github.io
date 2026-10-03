@@ -34,7 +34,7 @@ src/
 │   ├── index.astro               # Homepage
 │   ├── about.astro
 │   ├── projects.astro
-│   ├── diary/                    # Robotics diary
+│   ├── blog/                     # Robotics blog
 │   ├── open-source.astro
 │   ├── writing.astro
 │   └── contact.astro
@@ -57,7 +57,7 @@ public/
 
 3. Add optional markdown body below the frontmatter for freeform notes
 
-4. Experiment URLs drop the numeric prefix: `/diary/my-experiment` (the prefix only orders files)
+4. Experiment URLs drop the numeric prefix: `/blog/my-experiment` (the prefix only orders files)
 
 ## GitHub Pages deployment
 

@@ -15,7 +15,7 @@ tags:
   - calibration
 ---
 
-In my [last post](/diary/basic-pick-and-place-act), I trained ACT to reliably pick up a single yellow block and place it in a tray. The natural next step was to extend that to sorting: multiple colored blocks, multiple matching trays, same fixed workspace. I trained [sort_blocks_by_color_act_v1](https://huggingface.co/dorisjlee/sort_blocks_by_color_act_v1) on 81 episodes from [place-rectangle-colored-box](https://huggingface.co/datasets/dorisjlee/place-rectangle-colored-box), and it worked. But then several weeks later, it stopped working — and not in an obvious way.
+In my [last post](/blog/basic-pick-and-place-act), I trained ACT to reliably pick up a single yellow block and place it in a tray. The natural next step was to extend that to sorting: multiple colored blocks, multiple matching trays, same fixed workspace. I trained [sort_blocks_by_color_act_v1](https://huggingface.co/dorisjlee/sort_blocks_by_color_act_v1) on 81 episodes from [place-rectangle-colored-box](https://huggingface.co/datasets/dorisjlee/place-rectangle-colored-box), and it worked. But then several weeks later, it stopped working — and not in an obvious way.
 
 ## The Symptom
 

@@ -16,7 +16,7 @@ tags:
 
 <iframe src="https://www.youtube-nocookie.com/embed/kappIozO9ys?autoplay=1&mute=1&loop=1&playlist=kappIozO9ys&controls=1" style="width: 100%; max-width: 400px; aspect-ratio: 9 / 16; display: block; margin: 0 auto 1.5rem;" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen title="Color-sorting task demo"></iframe>
 
-In my [last post](/diary/basic-pick-and-place-act), I trained ACT on a single yellow block and a single yellow tray, then poked at what the policy actually generalized to. The results were a mixed bag:
+In my [last post](/blog/basic-pick-and-place-act), I trained ACT on a single yellow block and a single yellow tray, then poked at what the policy actually generalized to. The results were a mixed bag:
 
 | What I changed | Did it work? |
 |---|---|
@@ -44,7 +44,7 @@ You can browse the full dataset here:
 
 ## Training ACT
 
-Same ACT setup as [the last post](/diary/basic-pick-and-place-act), with a few architecture changes for the added complexity of the task:
+Same ACT setup as [the last post](/blog/basic-pick-and-place-act), with a few architecture changes for the added complexity of the task:
 
 ```bash
 lerobot-train \
@@ -88,7 +88,7 @@ lerobot-rollout \
 
 This kind of worked at the beginning, but not reliably. The arm's reaches were consistently slightly off, in a way that looked less like "the policy is confused about color" and more like "the policy and the physical world disagree about where things are."
 
-After a few weeks, it was completely off. Not just occasionally missing, but consistently reaching for the wrong spot regardless of where the block actually was. That sent me down a whole separate debugging path, which turned into its own post: [Debugging a Regression: Recalibrating the Workspace by Replaying Training Trajectories](/diary/recalibrating-workspace-replay). In short, my workspace geometry had drifted out of alignment with what the training data expected, and I had to recalibrate the base, trays, and cameras back into place.
+After a few weeks, it was completely off. Not just occasionally missing, but consistently reaching for the wrong spot regardless of where the block actually was. That sent me down a whole separate debugging path, which turned into its own post: [Debugging a Regression: Recalibrating the Workspace by Replaying Training Trajectories](/blog/recalibrating-workspace-replay). In short, my workspace geometry had drifted out of alignment with what the training data expected, and I had to recalibrate the base, trays, and cameras back into place.
 
 After recalibration, this worked! The policy reliably looked at the block, identified its color, and placed it in the matching tray: the first real evidence that ACT on this setup can make a decision that alters the action trajectory using visual feedback.
 

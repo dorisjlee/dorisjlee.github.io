@@ -45,7 +45,7 @@ Surprisingly, almost none of that month was spent learning robotics.
 
 Instead, I spent most of my time debugging USB ports, PyTorch versions, CUDA drivers, operating systems, cameras, calibration files, and physical desk layout.
 
-This is the guide I wish I had before starting. Hopefully it helps someone avoid a few of the same rabbit holes. This first part covers the workspace and compute environment — the stuff that has nothing to do with robotics and everything to do with whether robotics is even possible on your desk. [Part 2](/diary/camera-placement-and-first-success) covers camera placement, data quality, and what it looked like when everything finally worked.
+This is the guide I wish I had before starting. Hopefully it helps someone avoid a few of the same rabbit holes. This first part covers the workspace and compute environment — the stuff that has nothing to do with robotics and everything to do with whether robotics is even possible on your desk. [Part 2](/blog/camera-placement-and-first-success) covers camera placement, data quality, and what it looked like when everything finally worked.
 
 # 1. Your Desk Is Part of the Robot
 
@@ -194,4 +194,4 @@ At that point, the machine learning stopped being the bottleneck.
 
 Getting the environment working had been the real challenge all along.
 
-With the desk, cables, and compute stack no longer fighting me, the next problem was making sure my cameras were actually capturing what the policy needed to see, and figuring out whether any of this had actually worked. That's [Part 2](/diary/camera-placement-and-first-success).
+With the desk, cables, and compute stack no longer fighting me, the next problem was making sure my cameras were actually capturing what the policy needed to see, and figuring out whether any of this had actually worked. That's [Part 2](/blog/camera-placement-and-first-success).

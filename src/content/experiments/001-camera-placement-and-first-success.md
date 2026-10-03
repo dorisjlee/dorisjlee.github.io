@@ -13,7 +13,7 @@ tags:
   - lessons-learned
 ---
 
-In [Part 1](/diary/lerobot-so-arm101), I wrote about wrestling my desk, cables, and compute environment into something reproducible: consistent workspace, reliable USB enumeration, and a working CUDA/PyTorch stack split across Windows and WSL. Once that stopped fighting me, the next problem was making sure my cameras were actually capturing what the policy needed to see.
+In [Part 1](/blog/lerobot-so-arm101), I wrote about wrestling my desk, cables, and compute environment into something reproducible: consistent workspace, reliable USB enumeration, and a working CUDA/PyTorch stack split across Windows and WSL. Once that stopped fighting me, the next problem was making sure my cameras were actually capturing what the policy needed to see.
 
 # 3. Your Cameras Placement Define Your Training Dataset Quality
 

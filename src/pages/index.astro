@@ -36,7 +36,7 @@ const shortCardWidthPercent = 100 / (shortsVisibleCount * shortsPageCount);
             <div class="shorts-track" style={`width: ${shortsPageCount * 100}%`}>
               {shorts.map((short) => {
                 const href = short.postSlug
-                  ? withBase(`/diary/${short.postSlug}`)
+                  ? withBase(`/blog/${short.postSlug}`)
                   : `https://www.youtube.com/shorts/${short.youtubeId}`;
                 const external = !short.postSlug;
                 return (
@@ -115,7 +115,7 @@ const shortCardWidthPercent = 100 / (shortsVisibleCount * shortsPageCount);
   <section class="latest" aria-labelledby="latest-heading">
     <div class="section-header">
       <h2 id="latest-heading">Latest Blogs</h2>
-      <a href={withBase('/diary')} class="view-all">View all →</a>
+      <a href={withBase('/blog')} class="view-all">View all →</a>
     </div>
     <div class="experiment-grid">
       {featured.map((exp) => <ExperimentCard experiment={exp} />)}

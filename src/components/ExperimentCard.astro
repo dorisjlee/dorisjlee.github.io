@@ -17,7 +17,7 @@ const formattedDate = data.date.toLocaleDateString('en-US', {
 ---
 
 <article class="post-card">
-  <a href={withBase(`/diary/${slug}`)} class="card-link">
+  <a href={withBase(`/blog/${slug}`)} class="card-link">
     <time class="card-date" datetime={data.date.toISOString()}>{formattedDate}</time>
     <h3 class="card-title">{data.title}</h3>
     <p class="card-description">{data.description}</p>
