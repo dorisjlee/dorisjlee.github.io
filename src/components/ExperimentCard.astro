@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { withBase } from '../utils/url';
+import { withBase, experimentSlug } from '../utils/url';
 
 interface Props {
   experiment: CollectionEntry<'experiments'>;
@@ -8,7 +8,7 @@ interface Props {
 
 const { experiment } = Astro.props;
 const { data, id } = experiment;
-const slug = id.replace(/\.mdx?$/, '');
+const slug = experimentSlug(id);
 const formattedDate = data.date.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',

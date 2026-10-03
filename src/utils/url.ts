@@ -4,3 +4,8 @@ export function withBase(path: string): string {
   const normalized = path.startsWith('/') ? path.slice(1) : path;
   return `${base}${normalized}`;
 }
+
+/** URL slug for an experiment entry: drop the file extension and the numeric ordering prefix (e.g. "002-") */
+export function experimentSlug(id: string): string {
+  return id.replace(/\.mdx?$/, '').replace(/^\d+-/, '');
+}

@@ -57,7 +57,7 @@ public/
 
 3. Add optional markdown body below the frontmatter for freeform notes
 
-4. Experiment URLs: `/diary/006-my-experiment`
+4. Experiment URLs drop the numeric prefix: `/diary/my-experiment` (the prefix only orders files)
 
 ## GitHub Pages deployment
 

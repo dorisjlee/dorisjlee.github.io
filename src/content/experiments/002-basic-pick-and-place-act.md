@@ -15,7 +15,7 @@ tags:
 
 <iframe src="https://www.youtube-nocookie.com/embed/QowCPleHGvk?autoplay=1&mute=1&loop=1&playlist=QowCPleHGvk&controls=1" style="width: 100%; max-width: 400px; aspect-ratio: 9 / 16; display: block; margin: 0 auto 1.5rem;" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen title="Pick and place task demo"></iframe>
 
-In my [last post](/diary/001-lerobot-so-arm101), I wrote about getting my first SO-ARM101 set up and working end to end — USB ports, CUDA versions, camera placement, wrist orientation. That post was mostly about the environment; I didn't go into much depth on the task itself.
+In my last two posts ([Part 1](/diary/lerobot-so-arm101), [Part 2](/diary/camera-placement-and-first-success)), I wrote about getting my first SO-ARM101 set up and working end to end — USB ports, CUDA versions, camera placement, wrist orientation. Those posts were mostly about the environment; I didn't go into much depth on the task itself.
 
 This post is about actually finishing the task properly: picking up a block and placing it into a tray, trained with [ACT](https://huggingface.co/docs/lerobot) on the SO-ARM101. It came down to four steps.
 
@@ -47,7 +47,7 @@ With the printed objects and clean environment in place, I recorded a new datase
 
 A few things I paid attention to while collecting:
 
-- **Starting position.** Every episode started from the same neutral pose with the block already visible in both camera views — the exact lesson from [my last post](/diary/001-lerobot-so-arm101) about the wrist camera needing to see the object from frame one.
+- **Starting position.** Every episode started from the same neutral pose with the block already visible in both camera views — the exact lesson from [Part 2 of my last post](/diary/camera-placement-and-first-success) about the wrist camera needing to see the object from frame one.
 - **Consistent resets.** After placing the block, I reset the arm back to its original starting position before setting up the next episode, so the start of episode was consistent instead of drifting based on wherever the arm happened to end up.
 
 Fixing these data collection issues upstream meant that I only needed around 40 episodes to train a usable policy — roughly half the data of the initial dataset I collected, while still leading to a higher quality model.
@@ -166,6 +166,6 @@ You can find the two rollout dataset [here](https://huggingface.co/datasets/dori
 
 ## Summary and Next Steps
 
-Stepping back, training a simple pick and place task came down to four steps: design a task simple enough to nail end-to-end, build objects that remove unnecessary variation instead of adding it, collect a small but clean dataset, and train ACT on top of it. You can try this yourself. My trained model is [up on Hugging Face](https://huggingface.co/dorisjlee/place_yellow_rectangle_act_v3), you can download my model on [MakerWorld](https://makerworld.com/en/models/3207318-pick-and-place-robotics-task), and my full setup — hardware, environment, camera placement — is in the [previous post](/diary/001-lerobot-so-arm101). Let me know what you think!
+Stepping back, training a simple pick and place task came down to four steps: design a task simple enough to nail end-to-end, build objects that remove unnecessary variation instead of adding it, collect a small but clean dataset, and train ACT on top of it. You can try this yourself. My trained model is [up on Hugging Face](https://huggingface.co/dorisjlee/place_yellow_rectangle_act_v3), you can download my model on [MakerWorld](https://makerworld.com/en/models/3207318-pick-and-place-robotics-task), and my full setup — hardware, environment, camera placement — is in the previous two posts ([Part 1](/diary/lerobot-so-arm101), [Part 2](/diary/camera-placement-and-first-success)). Let me know what you think!
 
 Next up, to extend the capabilities of my SO-101, I'm going to train my robot to sort the blocks by color, with multiple blocks and multiple trays on the table at once. More to come in the next post!

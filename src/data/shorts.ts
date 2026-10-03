@@ -6,7 +6,7 @@
 export type Short = {
   youtubeId: string;
   caption: string;
-  /** Matches an experiment's filename (without .md), e.g. "001-lerobot-so-arm101" */
+  /** Matches an experiment's URL slug (filename minus .md and the numeric prefix), e.g. "lerobot-so-arm101" */
   postSlug?: string;
 };
 
@@ -14,11 +14,11 @@ export const shorts: Short[] = [
   {
     youtubeId: 'kappIozO9ys',
     caption: 'Sorting blocks by color',
-    postSlug: '004-sorting-blocks-by-color',
+    postSlug: 'sorting-blocks-by-color',
   },
   {
     youtubeId: 'QowCPleHGvk',
     caption: 'Single-block pick and place with ACT',
-    postSlug: '001-lerobot-so-arm101',
+    postSlug: 'lerobot-so-arm101',
   },
 ];

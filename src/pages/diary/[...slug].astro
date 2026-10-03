@@ -2,11 +2,12 @@
 import { getCollection, render } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
 import ExperimentTemplate from '../../components/ExperimentTemplate.astro';
+import { experimentSlug } from '../../utils/url';
 
 export async function getStaticPaths() {
   const experiments = await getCollection('experiments');
   return experiments.map((experiment) => ({
-    params: { slug: experiment.id.replace(/\.mdx?$/, '') },
+    params: { slug: experimentSlug(experiment.id) },
     props: { experiment },
   }));
 }
